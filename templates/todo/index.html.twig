@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Todo index{% endblock %}
+
+{% block body %}
+    <h1>Todo index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th></th>
+                <th>Title</th>
+                <th>Done</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Labels</th>
+                <th>Nb comments</th>
+                <th>Date de création</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for todo in todos|sort((a,b)=> b.priority.value >= a.priority.value ) %}
+            <tr>
+                <td>{{ todo.id }}</td>
+                <td>
+                    {% if todo.urlimage %}
+                        <img src="{{ todo.urlimage.url }}" class="img-thumbnail">
+                    {% endif %}
+                </td>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.done ? 'Yes' : 'No' }}</td>
+                <td>{{ todo.description }}</td>
+                <td>{{ todo.priority.name }}</td>
+                <td>
+                    {% for label in todo.labels %}
+                        <span class="badge badge-secondary">{{ label.title }}</span>
+                    {% endfor %}
+                </td>
+                <td>{{ todo.comments|length }}</td>
+                <td>{{ todo.createdAt|date('d/m/Y') }}</td>
+                <td>
+                    <a class="btn btn-sm btn-success" href="{{ path('todo_show', {'id': todo.id}) }}"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('todo_edit', {'id': todo.id}) }}"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-sm btn-success" href="{{ path('todo_new') }}"><i class="fas fa-plus"></i>&nbsp;Create new</a>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Todo{% endblock %}
+
+{% block body %}
+    <h1>Create new Todo</h1>
+
+    {{ include('todo/_form.html.twig') }}
+
+    <a class="btn btn-sm btn-light" href="{{ path('todo_index') }}">back to list</a>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('assets/js/add_edit_todo_comments.js') }}"></script>
+{% endblock %}
